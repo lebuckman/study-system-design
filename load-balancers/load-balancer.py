@@ -4,11 +4,14 @@ import threading
 import time
 import requests
 
-# List of backend servers with weights for load balancing
-backend_servers = [
+# List of all backend servers (with weights)
+all_servers = [
     {"url": "http://127.0.0.1:8001", "weight": 2},
     {"url": "http://127.0.0.1:8002", "weight": 1}
 ]
+
+# Active pool of healthy backend servers
+backend_servers = all_servers[:]
 
 # Round-robin counter and weight tracking
 current_server = 0
@@ -17,16 +20,25 @@ current_weight = 0
 
 def health_check():
     while True:
-        for server in backend_servers[:]:
+        for server in all_servers:
             try:
                 response = requests.get(server["url"], timeout=2)
-                if response.status_code != 200:
-                    print(f"Server {server} is unhealthy. Removing from pool.")
-                    backend_servers.remove(server)
+                if response.status_code == 200:
+                    if server not in backend_servers:
+                        print(
+                            f"Server {server['url']} is healthy again. Adding back to pool.")
+                        backend_servers.append(server)
+                else:
+                    if server in backend_servers:
+                        print(
+                            f"Server {server['url']} is unhealthy. Removing from pool.")
+                        backend_servers.remove(server)
             except requests.RequestException:
-                print(f"Server {server} is unhealthy. Removing from pool.")
-                backend_servers.remove(server)
-        time.sleep(10)  # check every 10 seconds
+                if server in backend_servers:
+                    print(
+                        f"Server {server['url']} is unhealthy. Removing from pool.")
+                    backend_servers.remove(server)
+        time.sleep(10)  # Check every 10 seconds
 
 
 def get_next_server():
