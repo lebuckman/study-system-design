@@ -4,21 +4,22 @@ import threading
 import time
 import requests
 
-# List of backend servers
+# List of backend servers with weights for load balancing
 backend_servers = [
-    "http://127.0.0.1:8001",
-    "http://127.0.0.1:8002"
+    {"url": "http://127.0.0.1:8001", "weight": 2},
+    {"url": "http://127.0.0.1:8002", "weight": 1}
 ]
 
-# Round-robin counter
+# Round-robin counter and weight tracking
 current_server = 0
+current_weight = 0
 
 
 def health_check():
     while True:
         for server in backend_servers[:]:
             try:
-                response = requests.get(server, timeout=2)
+                response = requests.get(server["url"], timeout=2)
                 if response.status_code != 200:
                     print(f"Server {server} is unhealthy. Removing from pool.")
                     backend_servers.remove(server)
@@ -26,6 +27,18 @@ def health_check():
                 print(f"Server {server} is unhealthy. Removing from pool.")
                 backend_servers.remove(server)
         time.sleep(10)  # check every 10 seconds
+
+
+def get_next_server():
+    global current_server, current_weight
+    while True:
+        server = backend_servers[current_server % len(backend_servers)]
+        if current_weight < server["weight"]:
+            current_weight += 1
+            return server["url"]
+        else:
+            current_weight = 0
+            current_server = (current_server + 1) % len(backend_servers)
 
 
 class LoadBalancerHandler(http.server.BaseHTTPRequestHandler):
@@ -53,11 +66,9 @@ class LoadBalancerHandler(http.server.BaseHTTPRequestHandler):
             self.send_error(500, f"Error forwarding request: {e}")
 
     def do_GET(self):
-        global current_server
-        backend = backend_servers[current_server]
+        backend = get_next_server()
         print(f"Forwarding request to {backend}")
         self.forward_request(backend)
-        current_server = (current_server + 1) % len(backend_servers)
 
 
 PORT = 8080
