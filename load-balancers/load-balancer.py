@@ -17,6 +17,9 @@ backend_servers = all_servers[:]
 current_server = 0
 current_weight = 0
 
+# Track active connections for each server
+active_connections = {server["url"]: 0 for server in backend_servers}
+
 
 def health_check():
     while True:
@@ -53,6 +56,13 @@ def get_next_server():
             current_server = (current_server + 1) % len(backend_servers)
 
 
+def get_least_connections_server():
+    active_urls = {server["url"] for server in backend_servers}
+    filtered = {url: count for url,
+                count in active_connections.items() if url in active_urls}
+    return min(filtered, key=filtered.get)
+
+
 class LoadBalancerHandler(http.server.BaseHTTPRequestHandler):
     def forward_request(self, backend):
         content_length = int(self.headers.get('Content-Length', 0))
@@ -78,9 +88,15 @@ class LoadBalancerHandler(http.server.BaseHTTPRequestHandler):
             self.send_error(500, f"Error forwarding request: {e}")
 
     def do_GET(self):
-        backend = get_next_server()
-        print(f"Forwarding request to {backend}")
+        backend = get_least_connections_server()
+        active_connections[backend] += 1
+        print(
+            f"Forwarding request to {backend} (active connections: {active_connections[backend]})")
         self.forward_request(backend)
+        active_connections[backend] -= 1
+
+    def do_POST(self):
+        self.do_GET()
 
 
 PORT = 8080
