@@ -121,4 +121,8 @@ if __name__ == "__main__":
     with socketserver.TCPServer(("", PORT), LoadBalancerHandler) as httpd:
         logging.info(
             f"Load balancer running on port {PORT} using {ALGORITHM}...")
-        httpd.serve_forever()
+
+        try:
+            httpd.serve_forever()
+        except KeyboardInterrupt:
+            logging.info("Shutting down load balancer...")
