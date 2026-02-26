@@ -1,5 +1,7 @@
 import http.server
 import socketserver
+import threading
+import time
 import requests
 
 # List of backend servers
@@ -10,6 +12,20 @@ backend_servers = [
 
 # Round-robin counter
 current_server = 0
+
+
+def health_check():
+    while True:
+        for server in backend_servers[:]:
+            try:
+                response = requests.get(server, timeout=2)
+                if response.status_code != 200:
+                    print(f"Server {server} is unhealthy. Removing from pool.")
+                    backend_servers.remove(server)
+            except requests.RequestException:
+                print(f"Server {server} is unhealthy. Removing from pool.")
+                backend_servers.remove(server)
+        time.sleep(10)  # check every 10 seconds
 
 
 class LoadBalancerHandler(http.server.BaseHTTPRequestHandler):
@@ -47,6 +63,8 @@ class LoadBalancerHandler(http.server.BaseHTTPRequestHandler):
 PORT = 8080
 
 if __name__ == "__main__":
+    threading.Thread(target=health_check, daemon=True).start()
+
     with socketserver.TCPServer(("", PORT), LoadBalancerHandler) as httpd:
         print(f"Load balancer running on port {PORT}...")
         httpd.serve_forever()
