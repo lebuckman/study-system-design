@@ -1,8 +1,20 @@
 import http.server
+import logging
 import socketserver
 import threading
 import time
 import requests
+
+# Configure logging
+logging.basicConfig(
+    level=logging.INFO,
+    format="%(asctime)s - %(levelname)s - %(message)s"
+)
+
+# Load balancing algorithm and server configuration
+ALGORITHM = "least_connections"  # "round_robin" or "least_connections"
+PORT = 8080
+
 
 # List of all backend servers (with weights)
 all_servers = [
@@ -28,17 +40,17 @@ def health_check():
                 response = requests.get(server["url"], timeout=2)
                 if response.status_code == 200:
                     if server not in backend_servers:
-                        print(
+                        logging.info(
                             f"Server {server['url']} is healthy again. Adding back to pool.")
                         backend_servers.append(server)
                 else:
                     if server in backend_servers:
-                        print(
+                        logging.warning(
                             f"Server {server['url']} is unhealthy. Removing from pool.")
                         backend_servers.remove(server)
             except requests.RequestException:
                 if server in backend_servers:
-                    print(
+                    logging.warning(
                         f"Server {server['url']} is unhealthy. Removing from pool.")
                     backend_servers.remove(server)
         time.sleep(10)  # Check every 10 seconds
@@ -88,9 +100,13 @@ class LoadBalancerHandler(http.server.BaseHTTPRequestHandler):
             self.send_error(500, f"Error forwarding request: {e}")
 
     def do_GET(self):
-        backend = get_least_connections_server()
+        if ALGORITHM == "round_robin":
+            backend = get_next_server()
+        else:
+            backend = get_least_connections_server()
+
         active_connections[backend] += 1
-        print(
+        logging.info(
             f"Forwarding request to {backend} (active connections: {active_connections[backend]})")
         self.forward_request(backend)
         active_connections[backend] -= 1
@@ -99,11 +115,10 @@ class LoadBalancerHandler(http.server.BaseHTTPRequestHandler):
         self.do_GET()
 
 
-PORT = 8080
-
 if __name__ == "__main__":
     threading.Thread(target=health_check, daemon=True).start()
 
     with socketserver.TCPServer(("", PORT), LoadBalancerHandler) as httpd:
-        print(f"Load balancer running on port {PORT}...")
+        logging.info(
+            f"Load balancer running on port {PORT} using {ALGORITHM}...")
         httpd.serve_forever()
