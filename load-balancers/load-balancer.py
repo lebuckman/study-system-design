@@ -12,7 +12,7 @@ logging.basicConfig(
 )
 
 # Load balancing algorithm and server configuration
-ALGORITHM = "least_connections"  # "round_robin" or "least_connections"
+ALGORITHM = "round_robin"  # "round_robin" or "least_connections"
 PORT = 8080
 
 
