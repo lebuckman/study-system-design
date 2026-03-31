@@ -1,4 +1,5 @@
 import time
+import random
 import logging
 
 logging.basicConfig(
@@ -35,7 +36,7 @@ class TTLCache:
     def invalidate(self, key):
         if key in self.store:
             del self.store[key]
-            logging.info(f"INVALIDATED → {key}")
+            logging.info(f"  INVALIDATED → {key}")
 
     def size(self):
         return len(self.store)
@@ -52,18 +53,76 @@ class TTLCache:
         print(f"  Cached items:  {self.size()}")
         print("─" * 40)
 
+# ---------------------------------------------------------------------------
+# Simulation
+# ---------------------------------------------------------------------------
+
+
+# Simulated origin server (in a real CDN, this would be your web server)
+ORIGIN = {
+    "github.com":     "140.82.114.4",
+    "google.com":     "142.250.80.46",
+    "cloudflare.com": "104.16.132.229",
+    "openai.com":     "104.18.32.47",
+    "stripe.com":     "54.187.188.194",
+}
+
+
+def fetch_from_origin(domain):
+    time.sleep(0.05)  # simulate network round-trip delay
+    return ORIGIN.get(domain, "NXDOMAIN")
+
+
+def request(cache, domain):
+    result = cache.get(domain)
+    if result is not None:
+        logging.info(f"  HIT  │ {domain:20s} → {result}")
+    else:
+        ip = fetch_from_origin(domain)
+        cache.set(domain, ip, ttl=DEFAULT_TTL)
+        logging.info(
+            f"  MISS │ {domain:20s} → {ip} (fetched from origin, TTL {DEFAULT_TTL}s)")
+
+
+def run_simulation():
+    cache = TTLCache()
+    domains = list(ORIGIN.keys())
+
+    print("=" * 40)
+    print("  CDN Cache Simulator")
+    print("=" * 40)
+
+    # Phase 1
+    print("\n[Phase 1] First-time requests")
+    print("─" * 40)
+    for domain in domains:
+        request(cache, domain)
+        time.sleep(0.1)
+
+    # Phase 2
+    print("\n[Phase 2] Repeat requests")
+    print("─" * 40)
+    for domain in random.choices(domains, k=8):
+        request(cache, domain)
+        time.sleep(0.1)
+
+    # Phase 3
+    print("\n[Phase 3] Manual cache invalidation")
+    print("─" * 40)
+    cache.invalidate("github.com")
+    request(cache, "github.com")
+
+    # Phase 4
+    print(f"\n[Phase 4] Waiting {DEFAULT_TTL}s for TTL to expire...")
+    print("─" * 40)
+    time.sleep(DEFAULT_TTL + 1)
+    for domain in random.choices(domains, k=4):
+        request(cache, domain)
+        time.sleep(0.1)
+
+    print("\n[Results]")
+    cache.stats()
+
 
 if __name__ == "__main__":
-    cache = TTLCache()
-
-    cache.set("google.com", "142.250.80.46", ttl=DEFAULT_TTL)
-    cache.set("github.com", "140.82.114.4", ttl=DEFAULT_TTL)
-
-    logging.info(f"HIT  → {cache.get('google.com')}")
-    logging.info(f"HIT  → {cache.get('github.com')}")
-    logging.info(f"MISS → {cache.get('stripe.com')}")
-
-    cache.invalidate("google.com")
-    logging.info(f"MISS → {cache.get('google.com')}")
-
-    cache.stats()
+    run_simulation()
