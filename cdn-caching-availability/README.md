@@ -19,10 +19,10 @@ User in Singapore                   User in Singapore
         │                                   │
         │ ~200ms                            │ ~10ms
         ▼                                   ▼
-Origin server (US)              Edge server (Singapore)
-                                        │ (cache miss only)
-                                        ▼
-                                Origin server (US)
+Origin server (US)                  Edge server (Singapore)
+                                            │ (cache miss only)
+                                            ▼
+                                    Origin server (US)
 ```
 
 **Netflix Open Connect**
