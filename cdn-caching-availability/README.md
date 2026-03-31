@@ -83,7 +83,7 @@ With caching:      First request → origin → cache it
                    All future requests → cache → fast ✅
 ```
 
-![CDN Caching Diagram](../assets/cdn-caching.webp)
+![CDN Caching Diagram](../repo-figures/cdn-caching.webp)
 _Source: [DemoUp Cliplister](https://www.demoup-cliplister.com/en/blog/cdn-vs-caching-differences/)_
 
 ### CDN vs Caching
@@ -105,11 +105,11 @@ Caching happens at multiple levels in a typical web request.
 | Layer             | Where         | What's Cached                         |
 | ----------------- | ------------- | ------------------------------------- |
 | Browser cache     | Client device | HTML, CSS, JS, images                 |
-| CDN cache         | Edge server   | Static assets, entire responses       |
+| CDN cache         | Edge server   | Static repo-figures, entire responses       |
 | Application cache | Server memory | DB query results, computed data       |
 | Database cache    | DB engine     | Query results (e.g. Redis, Memcached) |
 
-**Browser cache** — Your browser stores copies of files on your local hard drive. On your next visit, it loads assets from disk rather than re-downloading them.
+**Browser cache** — Your browser stores copies of files on your local hard drive. On your next visit, it loads repo-figures from disk rather than re-downloading them.
 
 **CDN cache** — An edge server stores responses from the origin. Serves subsequent users asking for the same content without contacting the origin at all.
 
@@ -128,7 +128,7 @@ Caching happens at multiple levels in a typical web request.
 | `max-age=N`       | Cache for N seconds                                  |
 | `s-maxage=N`      | CDN-specific max age (overrides `max-age` for CDNs)  |
 
-![Cache-Control Header](../assets/cache-control.webp)
+![Cache-Control Header](../repo-figures/cache-control.webp)
 _Source: [Yishai Zehavi (DEV)](https://dev.to/yishai_zehavi/http-caching-explained-part-1-theory-3j4m)_
 
 ### TTL — Time To Live
@@ -138,7 +138,7 @@ _Source: [Yishai Zehavi (DEV)](https://dev.to/yishai_zehavi/http-caching-explain
 - **Short TTL** → more up-to-date content, but more origin requests and higher latency
 - **Long TTL** → fewer origin requests and faster responses, but stale content lingers longer
 
-For static assets that rarely change (logos, fonts, JS bundles), long TTLs (days or weeks) are ideal. For dynamic content (news feeds, user data), short TTLs or `no-cache` are more appropriate.
+For static repo-figures that rarely change (logos, fonts, JS bundles), long TTLs (days or weeks) are ideal. For dynamic content (news feeds, user data), short TTLs or `no-cache` are more appropriate.
 
 ### Cache Invalidation
 

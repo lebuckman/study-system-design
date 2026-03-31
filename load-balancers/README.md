@@ -47,7 +47,7 @@ Request 4 → Server A  ← loops back
 
 **Limitation:** Treats all servers equally regardless of their current load or capacity. It does not consider server load or response time.
 
-![Round Robin Diagram](../assets/round-robin.webp)
+![Round Robin Diagram](../repo-figures/round-robin.webp)
 _Source: [AlgoMaster](https://blog.algomaster.io/p/load-balancing-algorithms-explained-with-code)_
 
 #### Variants
@@ -72,7 +72,7 @@ Server C:  8 active connections
 
 **Tradeoff:** Requires tracking connection state of each server.
 
-![Least Connections Diagram](../assets/least-connections.webp)
+![Least Connections Diagram](../repo-figures/least-connections.webp)
 _Source: [AlgoMaster](https://blog.algomaster.io/p/load-balancing-algorithms-explained-with-code)_
 
 ---

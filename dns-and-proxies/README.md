@@ -68,7 +68,7 @@ TTL becomes critical during server migrations — if you're moving to a new IP, 
 
 ## 🔄 The DNS Lookup Flow
 
-![Complete DNS Lookup and Webpage Query](../assets/dns-lookup.png)
+![Complete DNS Lookup and Webpage Query](../repo-figures/dns-lookup.png)
 _Source: [Cloudflare](https://www.cloudflare.com/learning/dns/what-is-dns/)_
 
 ```

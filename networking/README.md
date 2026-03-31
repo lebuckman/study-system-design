@@ -24,7 +24,7 @@ IPv6 was created due to shortage of IPv4 addresses, but most modern systems supp
 - **Private IP** — only valid within a local network (e.g. `192.168.x.x`, `10.x.x.x`). Used to communicate within a local network.
 - **`127.0.0.1`** — default IPv4 loopback address (`localhost`).
 
-![Public versus Private IP](../assets/ip-addresses.webp)
+![Public versus Private IP](../repo-figures/ip-addresses.webp)
 _Source: [Avast](https://www.avast.com/c-ip-address-public-vs-private)_
 
 ### Subnets & NAT
@@ -73,7 +73,7 @@ The only layer that directly interacts with data from the user. Responsible for 
 
 When you type `google.com` into a browser, the browser constructs an HTTP request and initiates a DNS lookup to resolve the domain to an IP address.
 
-![OSI Application Layer](../assets/osi/osi-application.png)
+![OSI Application Layer](../repo-figures/osi/osi-application.png)
 _Source: [Cloudflare](https://www.cloudflare.com/learning/ddos/glossary/open-systems-interconnection-model-osi/)_
 
 **Key protocols:**
@@ -92,7 +92,7 @@ _Source: [Cloudflare](https://www.cloudflare.com/learning/ddos/glossary/open-sys
 
 Acts as the translator between the network and the application. Ensures data sent by one system can be understood by another, regardless of how each internally represents data.
 
-![OSI Presentation Layer](../assets/osi/osi-presentation.png)
+![OSI Presentation Layer](../repo-figures/osi/osi-presentation.png)
 _Source: [Cloudflare](https://www.cloudflare.com/learning/ddos/glossary/open-systems-interconnection-model-osi/)_
 
 **Responsibilities:**
@@ -109,7 +109,7 @@ _Source: [Cloudflare](https://www.cloudflare.com/learning/ddos/glossary/open-sys
 
 Manages the session, the persistent connection between two communicating applications. Ensures all data being exchanged is transferred, then promptly closes to avoid wasting resources. Also handles synchronization checkpoints so interrupted transfers can resume rather than restart.
 
-![OSI Session Layer](../assets/osi/osi-session.png)
+![OSI Session Layer](../repo-figures/osi/osi-session.png)
 _Source: [Cloudflare](https://www.cloudflare.com/learning/ddos/glossary/open-systems-interconnection-model-osi/)_
 
 **Key protocols:** NetBIOS, RPC (Remote Procedure Call), SIP (used for VoIP calls), PPTP (VPNs)
@@ -130,7 +130,7 @@ Manages end-to-end communication between applications on two devices. Breaks dat
 
 Also responsible for flow control (control optimal transmission speed) and error control (request retransmission if data received is incomplete) for inter-network communication.
 
-![OSI Transport Layer](../assets/osi/osi-transport.png)
+![OSI Transport Layer](../repo-figures/osi/osi-transport.png)
 _Source: [Cloudflare](https://www.cloudflare.com/learning/ddos/glossary/open-systems-interconnection-model-osi/)_
 
 **Key protocols:** TCP, UDP
@@ -150,7 +150,7 @@ _Source: [Cloudflare](https://www.cloudflare.com/learning/ddos/glossary/open-sys
 
 Responsible for routing data across **different** networks — unnecessary if devices are on same network. Packages data into **packets**, assigns source and destination IP addresses, and determines the best path to the destination via **routing**.
 
-![OSI Network Layer](../assets/osi/osi-network.png)
+![OSI Network Layer](../repo-figures/osi/osi-network.png)
 _Source: [Cloudflare](https://www.cloudflare.com/learning/ddos/glossary/open-systems-interconnection-model-osi/)_
 
 **Key protocols:**
@@ -182,7 +182,7 @@ Split into two sublayers:
 - **MAC** (Media Access Control) — controls how devices share the physical medium and handles MAC address based delivery
 - **LLC** (Logical Link Control) — manages flow control, error checking, and acts as the interface between the MAC sublayer and Layer 3 above it
 
-![OSI Data Link Layer](../assets/osi/osi-data-link.png)
+![OSI Data Link Layer](../repo-figures/osi/osi-data-link.png)
 _Source: [Cloudflare](https://www.cloudflare.com/learning/ddos/glossary/open-systems-interconnection-model-osi/)_
 
 **Key protocols:** Ethernet, PPP (Point-to-Point Protocol), HDLC
@@ -201,7 +201,7 @@ _Source: [Cloudflare](https://www.cloudflare.com/learning/ddos/glossary/open-sys
 
 The lowest layer, transmitting raw binary data (0s and 1s) as **physical** signals across a medium. Electrical signals over copper cable, light pulses over fiber optic, radio waves over Wi-Fi.
 
-![OSI Data Physical Layer](../assets/osi/osi-physical.png)
+![OSI Data Physical Layer](../repo-figures/osi/osi-physical.png)
 _Source: [Cloudflare](https://www.cloudflare.com/learning/ddos/glossary/open-systems-interconnection-model-osi/)_
 
 **Standards:**
@@ -247,7 +247,7 @@ Receiving (up the stack):
   7. Application   → email app displays message to Ms. Palmer ✅
 ```
 
-![OSI Model Diagram](../assets/osi/osi-model.png)
+![OSI Model Diagram](../repo-figures/osi/osi-model.png)
 _Source: [Cloudflare](https://www.cloudflare.com/learning/ddos/glossary/open-systems-interconnection-model-osi/)_
 
 ## 🚦 TCP vs UDP

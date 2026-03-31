@@ -266,7 +266,7 @@ Locally, requests complete near-instantly so both servers stay at 0 connections 
 
 Miscellaneous encounters during testing that may or may not appear:
 
-**Multiple log lines per browser visit** — Browsers automatically fire several requests per page load (favicon, assets, etc.).
+**Multiple log lines per browser visit** — Browsers automatically fire several requests per page load (favicon, repo-figures, etc.).
 
 **`::ffff:127.0.0.1`** — Your local IP in IPv6 format. Python's HTTP server supports both address families.
 

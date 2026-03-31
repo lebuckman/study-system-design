@@ -4,7 +4,7 @@ Build an in-memory TTL cache and run a simulation across four phases — cold st
 
 This quick demonstration was implemented with the assistance of Claude.
 
-![Caching Definition](../assets/caching.png)
+![Caching Definition](../repo-figures/caching.png)
 _Source: [BlazingCDN](https://blog.blazingcdn.com/en-us/exploring-cdn-caching-mechanisms)_
 
 ## ⚙️ Configuration

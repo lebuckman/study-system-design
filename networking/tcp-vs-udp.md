@@ -4,7 +4,7 @@ Observe the fundamental difference between TCP and UDP: TCP guarantees delivery 
 
 This quick demonstration was implemented with the assistance of Claude.
 
-![TCP vs UDP diagram](../assets/tcp-vs-udp.png)
+![TCP vs UDP diagram](../repo-figures/tcp-vs-udp.png)
 _Source: [Storm Streaming](https://www.stormstreaming.com/blog/tcp-and-upd-what-are-they/)_
 
 ## ⚙️ Configuration

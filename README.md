@@ -7,7 +7,7 @@ A collection of notes, concepts, and hands-on mini projects from a weekly system
 >
 > Diagrams and images used throughout this repo are sourced from their respective owners and are not original unless otherwise noted. Sources are credited inline where images appear.
 
-![Common System Design Components and Request Flow](./assets/system-design.png)
+![Common System Design Components and Request Flow](./repo-figures/system-design.png)
 _Source: [Software Engineer Growth - Quoc Viet Ha](https://www.linkedin.com/pulse/system-design-basic-part-2-common-components-quoc-viet-ha-qwluc/)_
 
 ## 🏛️ Core Pillars
