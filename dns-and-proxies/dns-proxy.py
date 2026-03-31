@@ -14,6 +14,17 @@ LISTEN_PORT = 5354
 # -----------------------
 
 
+def extract_domain(data):
+    parts = []
+    i = 12  # skip the 12-byte DNS header
+    while data[i] != 0:
+        length = data[i]
+        i += 1
+        parts.append(data[i:i + length].decode(errors="replace"))
+        i += length
+    return ".".join(parts)
+
+
 def forward_upstream(query):
     with socket.socket(socket.AF_INET, socket.SOCK_DGRAM) as upstream:
         upstream.settimeout(3)
@@ -31,7 +42,9 @@ if __name__ == "__main__":
         try:
             while True:
                 data, client_addr = server.recvfrom(512)
-                logging.info("Received query — forwarding upstream...")
+                domain = extract_domain(data)
+                logging.info(
+                    f"Received query for {domain} — forwarding upstream...")
                 response = forward_upstream(data)
                 server.sendto(response, client_addr)
         except KeyboardInterrupt:
