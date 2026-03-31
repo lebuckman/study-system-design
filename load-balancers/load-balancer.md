@@ -50,6 +50,15 @@ While you can update the logging output, weight of servers, or the ports, `ALGOR
 
 ## ⚡ Getting Started
 
+**Step 0. Install dependencies**
+
+```bash
+pip3 install requests
+```
+
+> [!note]
+> `requests` is a third-party HTTP library used to forward requests to backend servers. Check if you already have it installed by running `python3 -c "import requests"`. If no error appears, you're good to go.
+
 **Step 1. Start two backend servers** (in separate terminal windows)
 
 ```bash
