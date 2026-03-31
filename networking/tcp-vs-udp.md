@@ -119,3 +119,5 @@ Results vary every run.
 [SERVER] Shutting down.
 [CLIENT] All messages sent — but did they all arrive?
 ```
+
+> **See also:** View [2600-chat-app](https://github.com/lebuckman/2600-chat-app) repo, a Node.js TCP chat server inspired by a C implementation from a Systems Programming class. Showcases TCP's guaranteed, ordered delivery.
