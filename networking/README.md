@@ -2,7 +2,7 @@
 
 Foundational networking concepts — IP addressing, OSI model, TCP vs UDP, etc. — are essential in understanding other system design concepts, from how load balancers route traffic to how DNS resolves a domain name.
 
-View [`tcp-vs-udp.md`](./tcp-vs-udp.md) to observe TCP vs UDP tradeoffs in a Python demo.
+View [`tcp-vs-udp.md`](./tcp-vs-udp.md) to observe TCP vs UDP tradeoffs.
 
 ## 🌐 IP Addresses
 
@@ -31,7 +31,7 @@ _Source: [Avast](https://www.avast.com/c-ip-address-public-vs-private)_
 
 A **subnet** (subnetwork) is a logical subdivision of a larger network. Breaking a network into subnets improves organization, security, and traffic efficiency — for example, AWS VPCs use subnets to isolate different parts of an application from each other.
 
-**NAT (Network Address Translation)** is how multiple devices on a private network share a single public IP address. Your home router performs NAT — your laptop has a private IP, but to the outside internet it appears as your router's single public IP.
+**Network Address Translation (NAT)** is how multiple devices on a private network share a single public IP address. Your home router performs NAT — your laptop has a private IP, but to the outside internet it appears as your router's single public IP.
 
 ### Ports
 
@@ -118,7 +118,7 @@ _Source: [Cloudflare](https://www.cloudflare.com/learning/ddos/glossary/open-sys
 
 **Common issues:**
 
-- **Session hijacking** — attacker steals a valid session token to impersonate a user. Solution: enforce HTTPS + HSTS, use secure and `HttpOnly` cookie flags.
+- Session hijacking: attacker steals a valid session token to impersonate a user. Solution: enforce HTTPS + HSTS, use secure and `HttpOnly` cookie flags.
 - Dropped connections from poor session management
 - High latency in session setup hurts real-time apps like video calls
 
@@ -137,9 +137,9 @@ _Source: [Cloudflare](https://www.cloudflare.com/learning/ddos/glossary/open-sys
 
 **Common issues:**
 
-- **Congestion** — too much traffic overwhelming the network. TCP addresses this with congestion control that throttles the sending rate automatically.
-- **Packet loss** — TCP retransmits lost packets; UDP simply drops them and moves on.
-- **Out-of-order delivery** — packets can take different network paths and arrive out of sequence. TCP uses sequence numbers to reassemble them correctly.
+- Congestion — too much traffic overwhelming the network. TCP addresses this with congestion control that throttles the sending rate automatically.
+- Packet loss — TCP retransmits lost packets; UDP simply drops them and moves on.
+- Out-of-order delivery — packets can take different network paths and arrive out of sequence. TCP uses sequence numbers to reassemble them correctly.
 
 > [!note]
 > HTTP, HTTPS, FTP, SMTP, and DNS are _application layer_ protocols — they run _on top of_ TCP or UDP. They are not themselves transport layer protocols.
@@ -175,7 +175,7 @@ While Layer 3 gets data across networks, Layer 2 gets data from the router to th
 
 Once a packet arrives via Layer 3, Layer 2 figures out which physical device on that network should receive it using **MAC addresses** — hardware identifiers burned into every network interface card — rather than IP addresses. Packets are broken down into smaller units called **frames** for transmission. Conversely, raw bits from Layer 1 are reassembled into frames, checked for errors, stripped of header, and the packets are passed up to Layer 3.
 
-Similar to Layer 4, also responsible for flow control and error checking but within the local network as opposed to across networks end-to-end.
+Similar to Layer 4, responsible for flow control and error checking but within the local network as opposed to across networks end-to-end.
 
 Split into two sublayers:
 
@@ -191,7 +191,7 @@ _Source: [Cloudflare](https://www.cloudflare.com/learning/ddos/glossary/open-sys
 
 **Common issues:**
 
-- Operates only within a local network — cannot route across different networks
+- Operates only within a local network (cannot route across different networks)
 - MAC address conflicts
 - Error detection (frames may be dropped) but not always correction
 
@@ -215,7 +215,7 @@ _Source: [Cloudflare](https://www.cloudflare.com/learning/ddos/glossary/open-sys
 
 - Damaged or incompatible cables
 - Hardware failure (water damage, short circuits)
-- **Wiretapping** — intercepting physical signals to eavesdrop. Solution: encrypt data at higher layers (TLS) or use a VPN.
+- Wiretapping: intercepting physical signals to eavesdrop. Solution: encrypt data at higher layers (TLS) or use a VPN.
 
 ---
 

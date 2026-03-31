@@ -61,7 +61,7 @@ client.sendto(msg.encode(), (HOST, PORT))
 
 ### Simulated Packet Loss
 
-The server randomly discards incoming packets to simulate real network conditions. Note that UDP does not give feedback to the user of loss packets.
+The server randomly discards incoming packets to simulate real network conditions. (UDP does not give feedback to the user of loss packets)
 
 ```python
 if random.random() < LOSS_RATE:

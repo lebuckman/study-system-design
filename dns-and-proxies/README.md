@@ -1,6 +1,8 @@
 # DNS & Proxies
 
-How the internet translates names to addresses, and how proxies sit in the middle to make it faster, safer, and smarter. View [`dns-proxy.md`](./dns-proxy.md) for a working DNS proxy in Python that forwards queries upstream, caches responses with TTL, and logs cache hits and misses.
+How the internet translates names to addresses, and how proxies sit in the middle to make it faster, safer, and smarter. 
+
+View [`dns-proxy.md`](./dns-proxy.md) for a working DNS proxy that forwards queries upstream, caches responses with TTL, and logs cache hits and misses.
 
 ## 🌐 What is DNS?
 

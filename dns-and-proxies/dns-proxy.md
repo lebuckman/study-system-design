@@ -206,13 +206,11 @@ EXPIRED │ google.com — fetching from upstream
 CACHED  │ google.com (TTL 145s)
 ```
 
-**Nonexistent domain** — Query a domain that doesn't exist:
+**Nonexistent domain** — Query a domain that doesn't exist. The proxy forwards the query upstream as normal. Cloudflare returns an NXDOMAIN response (DNS for "not found"), which you'll see in the dig output as `status: NXDOMAIN` instead of `status: NOERROR`. The proxy still caches and returns this response.
 
 ```bash
 dig @127.0.0.1 -p 5354 totallyfakedomain12345.com
 ```
-
-The proxy forwards the query upstream as normal. Cloudflare returns an NXDOMAIN response (DNS for "not found"), which you'll see in the dig output as `status: NXDOMAIN` instead of `status: NOERROR`. The proxy still caches and returns this response.
 
 **Switch upstream resolver** — Change `UPSTREAM_DNS = "8.8.8.8"` and query the same domains. TTL values and response times may differ slightly between Google and Cloudflare depending on their caching state and your network proximity to each provider.
 

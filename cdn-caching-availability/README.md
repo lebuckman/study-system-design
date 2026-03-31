@@ -25,6 +25,10 @@ Origin server (US)              Edge server (Singapore)
                                 Origin server (US)
 ```
 
+**Netflix Open Connect**
+
+Netflix runs its own CDN called **Open Connect**. Rather than paying third-party CDNs, Netflix places thousands of servers _inside_ ISP networks around the world. Hosting media closer to the users improves streaming quality, lowers costs for ISPs, and ensures efficient data delivery.
+
 ### Key Components
 
 **Origin Server** — The authoritative source of your content. This is your actual web server or application backend. Every piece of content starts here. The CDN reduces how often clients need to hit it directly.
@@ -58,10 +62,6 @@ A **cache hit ratio** of 95–99% is typical for a well-configured CDN, meaning 
 ───────────────────────── = Cache Hit Ratio
 Cache Hits + Cache Misses
 ```
-
-### Example: Netflix Open Connect
-
-Netflix runs its own CDN called **Open Connect**. Rather than paying third-party CDNs, Netflix places thousands of servers _inside_ ISP networks around the world. Hosting media closer to the users improves streaming quality, lowers costs for ISPs, and ensures efficient data delivery.
 
 ### Disadvantages of CDNs
 
@@ -105,7 +105,7 @@ Caching happens at multiple levels in a typical web request.
 | Layer             | Where         | What's Cached                         |
 | ----------------- | ------------- | ------------------------------------- |
 | Browser cache     | Client device | HTML, CSS, JS, images                 |
-| CDN cache         | Edge server   | Static repo-figures, entire responses       |
+| CDN cache         | Edge server   | Static repo-figures, entire responses |
 | Application cache | Server memory | DB query results, computed data       |
 | Database cache    | DB engine     | Query results (e.g. Redis, Memcached) |
 
