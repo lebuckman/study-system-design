@@ -186,6 +186,36 @@ google.com.             210     IN      A       142.250.80.46
 
 - `Query time: 1ms` vs `27ms` — the cache serving the response without ever leaving your machine
 
+## 🧪 Experimenting
+
+**Watch TTL count down** — Query the same domain every few seconds within its TTL window. Each HIT log will show a lower remaining TTL than the last, counting down in real time as the cached entry ages toward expiry.
+
+```
+HIT     │ google.com (TTL 210s remaining)
+HIT     │ google.com (TTL 203s remaining)
+HIT     │ google.com (TTL 196s remaining)
+```
+
+**Trigger an expiry** — Query a domain through your proxy, then wait for its TTL to pass and query it again. You'll see the entry evicted and a fresh upstream fetch:
+
+```
+MISS    │ google.com — fetching from upstream
+CACHED  │ google.com (TTL 139s)
+...wait 139 seconds...
+EXPIRED │ google.com — fetching from upstream
+CACHED  │ google.com (TTL 145s)
+```
+
+**Nonexistent domain** — Query a domain that doesn't exist:
+
+```bash
+dig @127.0.0.1 -p 5354 totallyfakedomain12345.com
+```
+
+The proxy forwards the query upstream as normal. Cloudflare returns an NXDOMAIN response (DNS for "not found"), which you'll see in the dig output as `status: NXDOMAIN` instead of `status: NOERROR`. The proxy still caches and returns this response.
+
+**Switch upstream resolver** — Change `UPSTREAM_DNS = "8.8.8.8"` and query the same domains. TTL values and response times may differ slightly between Google and Cloudflare depending on their caching state and your network proximity to each provider.
+
 ## 💡 Key Observations
 
 - First query for any domain is slower — requires a full upstream round trip
